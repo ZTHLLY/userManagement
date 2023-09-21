@@ -4,6 +4,8 @@ import com.si1v3r.userclient.model.domain.User;
 import com.baomidou.mybatisplus.extension.service.IService;
 import jakarta.servlet.http.HttpServletRequest;
 
+import java.util.List;
+
 /**
  * 用户逻辑
  *
@@ -20,6 +22,8 @@ public interface UserService extends IService<User> {
    * @param checkPassword 校验密码
    * @return 新用户 id
    */
+
+
   long UserRegister(String userAccount, String userPassword, String checkPassword);
 
   /**
@@ -31,4 +35,5 @@ public interface UserService extends IService<User> {
    * @return user 脱敏用户信息
    */
   User userLogin(String userAccount, String userPassword, HttpServletRequest request);
+
 }

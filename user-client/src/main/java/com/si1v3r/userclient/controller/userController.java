@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 import static com.si1v3r.userclient.constant.userConstant.ADMIN_ROLE;
 import static com.si1v3r.userclient.constant.userConstant.USER_LOGIN_STATE;
@@ -66,7 +67,12 @@ public class userController {
     if (StringUtils.isNoneBlank(username)) {
       queryWrapper.like("username", username);
     }
-    return userService.list(queryWrapper);
+    List<User> userList = userService.list(queryWrapper);
+
+    return userList.stream().map(user -> {
+      user.setUserPassword(null);
+      return userService.getCleanUser(user);
+    }).collect(Collectors.toList());
   }
 
   @PostMapping("/delete")
@@ -89,6 +95,6 @@ public class userController {
     //鉴权
     Object userAttribute = request.getSession().getAttribute(USER_LOGIN_STATE);
     User user = (User) userAttribute;
-    return user != null && user.getRole() == ADMIN_ROLE;
+    return user != null && user.getUserRole() == ADMIN_ROLE;
   }
 }

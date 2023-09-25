@@ -1,8 +1,5 @@
 package com.si1v3r.userclient.service.impl;
 
-import java.util.Date;
-import java.util.List;
-
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 
@@ -17,6 +14,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.util.DigestUtils;
 
 import static com.si1v3r.userclient.constant.userConstant.USER_LOGIN_STATE;
+import static com.si1v3r.userclient.constant.userConstant.SALT;
 
 /**
  * 用户服务实现类
@@ -31,12 +29,6 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User>
   implements UserService {
   @Resource
   private UserMapper userMapper;
-
-
-  /**
-   * 盐值，用于混淆密码
-   */
-  private static final String SALT = "si1v3r";
 
 
   @Override
@@ -112,22 +104,33 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User>
       return null;
     }
     //用户脱敏
-    User cleanUser = new User();
-    cleanUser.setId(user.getId());
-    cleanUser.setUsername(user.getUsername());
-    cleanUser.setUserAccount(user.getUserAccount());
-    cleanUser.setAvatarUrl(user.getAvatarUrl());
-    cleanUser.setGender(user.getGender());
-    cleanUser.setPhone(user.getPhone());
-    cleanUser.setEmail(user.getEmail());
-    cleanUser.setCreateTime(user.getCreateTime());
-    cleanUser.setUpdateTime(user.getUpdateTime());
+    User cleanUser=getCleanUser(user);
     //记录用户登录态
     request.getSession().setAttribute(USER_LOGIN_STATE, cleanUser);
 
     return cleanUser;
   }
 
+  /**
+   * 用户脱敏
+   * @param originUser
+   * @return
+   */
+  @Override
+  public User getCleanUser(User originUser) {
+    User cleanUser = new User();
+    cleanUser.setId(originUser.getId());
+    cleanUser.setUsername(originUser.getUsername());
+    cleanUser.setUserAccount(originUser.getUserAccount());
+    cleanUser.setAvatarUrl(originUser.getAvatarUrl());
+    cleanUser.setGender(originUser.getGender());
+    cleanUser.setPhone(originUser.getPhone());
+    cleanUser.setEmail(originUser.getEmail());
+    cleanUser.setUserRole(originUser.getUserRole());
+    cleanUser.setCreateTime(originUser.getCreateTime());
+    cleanUser.setUpdateTime(originUser.getUpdateTime());
+    return cleanUser;
+  }
 
 }
 

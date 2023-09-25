@@ -10,6 +10,10 @@ public interface userConstant {
    * 用户登录态的键
    */
   String USER_LOGIN_STATE = "userLoginState";
+  /**
+   * 盐值，用于混淆密码
+   */
+  String SALT = "si1v3r";
 
   /*
   -----------权限----------------

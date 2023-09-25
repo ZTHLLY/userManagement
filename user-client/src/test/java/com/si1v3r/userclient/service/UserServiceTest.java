@@ -1,8 +1,6 @@
 package com.si1v3r.userclient.service;
 import java.nio.charset.StandardCharsets;
-import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
-import java.util.Date;
 
 import com.si1v3r.userclient.model.domain.User;
 import jakarta.annotation.Resource;
@@ -37,7 +35,7 @@ public class UserServiceTest {
 
 
     User user=new User();
-    user.setUsername("test01");
+    user.setUsername("test02");
     user.setUserAccount("123");
     user.setAvatarUrl("https://s2.loli.net/2022/11/27/iSobIY1cF6KzV5O.jpg");
     user.setGender(0);

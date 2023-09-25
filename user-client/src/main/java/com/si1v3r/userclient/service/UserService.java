@@ -1,10 +1,8 @@
 package com.si1v3r.userclient.service;
 
-import com.si1v3r.userclient.model.domain.User;
 import com.baomidou.mybatisplus.extension.service.IService;
+import com.si1v3r.userclient.model.domain.User;
 import jakarta.servlet.http.HttpServletRequest;
-
-import java.util.List;
 
 /**
  * 用户逻辑
@@ -15,8 +13,8 @@ import java.util.List;
  */
 public interface UserService extends IService<User> {
   /**
-   *
    * 用户注册
+   *
    * @param userAccount   用户账户
    * @param userPassword  用户密码
    * @param checkPassword 校验密码
@@ -31,9 +29,15 @@ public interface UserService extends IService<User> {
    *
    * @param userAccount  用户账户
    * @param userPassword 用户密码
-   * @param request 网络请求
+   * @param request      网络请求
    * @return user 脱敏用户信息
    */
   User userLogin(String userAccount, String userPassword, HttpServletRequest request);
 
+  /**
+   * 用户脱敏
+   * @param originUser
+   * @return
+   */
+  User getCleanUser(User originUser);
 }

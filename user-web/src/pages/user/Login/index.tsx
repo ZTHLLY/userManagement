@@ -2,7 +2,7 @@ import Footer from '@/components/Footer';
 import { login } from '@/services/ant-design-pro/api';
 import { LockOutlined, UserOutlined } from '@ant-design/icons';
 import { LoginForm, ProFormCheckbox, ProFormText } from '@ant-design/pro-components';
-import { Alert, Divider, message, Tabs } from 'antd';
+import { Alert, Divider, message, Space, Tabs } from 'antd';
 import React, { useState } from 'react';
 import { Link, history, useModel } from 'umi';
 import styles from './index.less';
@@ -126,19 +126,19 @@ const Login: React.FC = () => {
               marginBottom: 24,
             }}
           >
-            <ProFormCheckbox noStyle name="autoLogin">
-              自动登录
-            </ProFormCheckbox>
-            <Divider type="vertical" />
-            <Link to="/user/register">新用户注册</Link>
-            <Divider type="vertical" />
-            <a
-              style={{
-                float: 'right',
-              }}
-            >
-              忘记密码请联系si1v3r
-            </a>
+            <Space align="start" split={<Divider type="vertical" />}>
+              <ProFormCheckbox noStyle name="autoLogin">
+                自动登录
+              </ProFormCheckbox>
+              <Link to="/user/register">新用户注册</Link>
+              <a
+                style={{
+                  float: 'right',
+                }}
+              >
+                忘记密码
+              </a>
+            </Space>
           </div>
         </LoginForm>
       </div>

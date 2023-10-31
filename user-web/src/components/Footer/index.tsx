@@ -20,8 +20,8 @@ const Footer: React.FC = () => {
           blankTarget: true,
         },
         {
-          key: "si1v3r's blog",
-          title: "si1v3r's blog",
+          key: 'si1v3r\'s blog',
+          title: 'si1v3r\'s blog',
           href: 'https://zthlly.github.io/',
           blankTarget: true,
         },

@@ -37,8 +37,13 @@ export async function getInitialState(): Promise<{
   const fetchUserInfo = async () => {
     try {
       const user = await queryCurrentUser();
+      if (!user) {
+        console.log('null');
+        history.push(loginPath);
+      }
       return user;
     } catch (error) {
+      console.log('find no user');
       history.push(loginPath);
     }
     return undefined;

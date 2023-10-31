@@ -1,8 +1,9 @@
+import { userSearch } from '@/services/ant-design-pro/api';
 import type { ActionType, ProColumns } from '@ant-design/pro-components';
-import { ProTable, TableDropdown } from '@ant-design/pro-components';
-import { Space, Tag } from 'antd';
+import { ProTable } from '@ant-design/pro-components';
+import { Image } from 'antd';
 import { useRef } from 'react';
-import request from 'umi-request';
+
 export const waitTimePromise = async (time: number = 100) => {
   return new Promise((resolve) => {
     setTimeout(() => {
@@ -15,151 +16,174 @@ export const waitTime = async (time: number = 100) => {
   await waitTimePromise(time);
 };
 
-type GithubIssueItem = {
-  url: string;
-  id: number;
-  number: number;
-  title: string;
-  labels: {
-    name: string;
-    color: string;
-  }[];
-  state: string;
-  comments: number;
-  created_at: string;
-  updated_at: string;
-  closed_at?: string;
-};
-
-const columns: ProColumns<GithubIssueItem>[] = [
+const columns: ProColumns<API.CurrentUser>[] = [
   {
-    dataIndex: 'index',
+    dataIndex: 'id',
     valueType: 'indexBorder',
     width: 48,
   },
   {
-    title: '标题',
-    dataIndex: 'title',
+    title: '用户名',
+    dataIndex: 'username',
     copyable: true,
-    ellipsis: true,
-    tip: '标题过长会自动收缩',
-    formItemProps: {
-      rules: [
-        {
-          required: true,
-          message: '此项为必填项',
-        },
-      ],
-    },
   },
   {
-    disable: true,
-    title: '状态',
-    dataIndex: 'state',
-    filters: true,
-    onFilter: true,
-    ellipsis: true,
-    valueType: 'select',
-    valueEnum: {
-      all: { text: '超长'.repeat(50) },
-      open: {
-        text: '未解决',
-        status: 'Error',
-      },
-      closed: {
-        text: '已解决',
-        status: 'Success',
-        disabled: true,
-      },
-      processing: {
-        text: '解决中',
-        status: 'Processing',
-      },
-    },
+    title: '用户账户',
+    dataIndex: 'userAccount',
+    copyable: true,
   },
   {
-    disable: true,
-    title: '标签',
-    dataIndex: 'labels',
-    search: false,
-    renderFormItem: (_, { defaultRender }) => {
-      return defaultRender(_);
-    },
+    title: '头像',
+    dataIndex: 'avatarUrl',
     render: (_, record) => (
-      <Space>
-        {record.labels.map(({ name, color }) => (
-          <Tag color={color} key={name}>
-            {name}
-          </Tag>
-        ))}
-      </Space>
+      <div>
+        <Image src={record.avatarUrl} width={100} />
+      </div>
     ),
   },
   {
-    title: '创建时间',
-    key: 'showTime',
-    dataIndex: 'created_at',
-    valueType: 'date',
-    sorter: true,
-    hideInSearch: true,
+    title: '性别',
+    dataIndex: 'gender',
   },
   {
-    title: '创建时间',
-    dataIndex: 'created_at',
-    valueType: 'dateRange',
-    hideInTable: true,
-    search: {
-      transform: (value) => {
-        return {
-          startTime: value[0],
-          endTime: value[1],
-        };
+    title: '电话',
+    dataIndex: 'phone',
+    copyable: true,
+  },
+  {
+    title: '邮箱',
+    dataIndex: 'email',
+    copyable: true,
+  },
+  {
+    title: '状态',
+    dataIndex: 'userStatus',
+  },
+
+  {
+    title: '角色',
+    dataIndex: 'userRole',
+    valueEnum: {
+      0: { text: '普通用户', status: 'default' },
+      1: {
+        text: '管理员',
+        status: 'success',
       },
     },
   },
   {
-    title: '操作',
-    valueType: 'option',
-    key: 'option',
-    render: (text, record, _, action) => [
-      <a
-        key="editable"
-        onClick={() => {
-          action?.startEditable?.(record.id);
-        }}
-      >
-        编辑
-      </a>,
-      <a href={record.url} target="_blank" rel="noopener noreferrer" key="view">
-        查看
-      </a>,
-      <TableDropdown
-        key="actionGroup"
-        onSelect={() => action?.reload()}
-        menus={[
-          { key: 'copy', name: '复制' },
-          { key: 'delete', name: '删除' },
-        ]}
-      />,
-    ],
+    title: '创建时间',
+    dataIndex: 'createTime',
+    valueType: 'date',
   },
+
+  // {
+  //   disable: true,
+  //   title: '状态',
+  //   dataIndex: 'state',
+  //   filters: true,
+  //   onFilter: true,
+  //   ellipsis: true,
+  //   valueType: 'select',
+  //   valueEnum: {
+  //     all: { text: '超长'.repeat(50) },
+  //     open: {
+  //       text: '未解决',
+  //       status: 'Error',
+  //     },
+  //     closed: {
+  //       text: '已解决',
+  //       status: 'Success',
+  //       disabled: true,
+  //     },
+  //     processing: {
+  //       text: '解决中',
+  //       status: 'Processing',
+  //     },
+  //   },
+  // },
+  // {
+  //   disable: true,
+  //   title: '标签',
+  //   dataIndex: 'labels',
+  //   search: false,
+  //   renderFormItem: (_, { defaultRender }) => {
+  //     return defaultRender(_);
+  //   },
+  //   render: (_, record) => (
+  //     <Space>
+  //       {record.labels.map(({ name, color }) => (
+  //         <Tag color={color} key={name}>
+  //           {name}
+  //         </Tag>
+  //       ))}
+  //     </Space>
+  //   ),
+  // },
+  // {
+  //   title: '创建时间',
+  //   key: 'showTime',
+  //   dataIndex: 'created_at',
+  //   valueType: 'date',
+  //   sorter: true,
+  //   hideInSearch: true,
+  // },
+  // {
+  //   title: '创建时间',
+  //   dataIndex: 'created_at',
+  //   valueType: 'dateRange',
+  //   hideInTable: true,
+  //   search: {
+  //     transform: (value) => {
+  //       return {
+  //         startTime: value[0],
+  //         endTime: value[1],
+  //       };
+  //     },
+  //   },
+  // },
+  // {
+  //   title: '操作',
+  //   valueType: 'option',
+  //   key: 'option',
+  //   render: (text, record, _, action) => [
+  //     <a
+  //       key="editable"
+  //       onClick={() => {
+  //         action?.startEditable?.(record.id);
+  //       }}
+  //     >
+  //       编辑
+  //     </a>,
+  //     <a href={record.url} target="_blank" rel="noopener noreferrer" key="view">
+  //       查看
+  //     </a>,
+  //     <TableDropdown
+  //       key="actionGroup"
+  //       onSelect={() => action?.reload()}
+  //       menus={[
+  //         { key: 'copy', name: '复制' },
+  //         { key: 'delete', name: '删除' },
+  //       ]}
+  //     />,
+  //   ],
+  // },
 ];
 
 export default () => {
   const actionRef = useRef<ActionType>();
   return (
-    <ProTable<GithubIssueItem>
+    <ProTable<API.CurrentUser>
       columns={columns}
       actionRef={actionRef}
       cardBordered
       request={async (params, sort, filter) => {
         console.log(sort, filter);
         await waitTime(2000);
-        return request<{
-          data: GithubIssueItem[];
-        }>('https://proapi.azurewebsites.net/github/issues', {
-          params,
-        });
+        const userList = await userSearch();
+        return {
+          data: userList,
+        };
       }}
       editable={{
         type: 'multiple',

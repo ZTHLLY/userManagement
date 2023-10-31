@@ -118,6 +118,9 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User>
    */
   @Override
   public User getCleanUser(User originUser) {
+    if(originUser==null){
+      return null;
+    }
     User cleanUser = new User();
     cleanUser.setId(originUser.getId());
     cleanUser.setUsername(originUser.getUsername());

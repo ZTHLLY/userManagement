@@ -5,12 +5,12 @@ declare namespace API {
   type CurrentUser = {
     id: string;
     username: string;
-    account: string;
+    userAccount: string;
     avatarUrl?: string;
     gender: number;
 
     phone: string;
-    Email: string;
+    email: string;
     userStatus: number;
     createTime: Date;
     userRole: number;

@@ -57,6 +57,20 @@ public class userController {
     return userService.userLogin(userAccount, userPassword, request);
   }
 
+  @GetMapping("/current")
+  public User getCurrentUser(HttpServletRequest request){
+    Object userAttribute = request.getSession().getAttribute(USER_LOGIN_STATE);
+    User currentUser=(User) userAttribute;
+    if(currentUser==null){
+      return null;
+    }
+    long userId=currentUser.getId();
+    //TODO: 校验用户是否合法
+    User user = userService.getById(userId);
+    return userService.getCleanUser(user);
+  }
+
+
   @GetMapping("/search")
   public List<User> userSearch(String username, HttpServletRequest request) {
     if(!isAdmin(request)){

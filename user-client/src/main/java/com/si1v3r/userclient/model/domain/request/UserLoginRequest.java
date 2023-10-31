@@ -1,6 +1,5 @@
 package com.si1v3r.userclient.model.domain.request;
 
-
 import lombok.Data;
 
 import java.io.Serial;

@@ -32,7 +32,7 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User>
 
 
   @Override
-  public long UserRegister(String userAccount, String userPassword, String checkPassword) {
+  public long UserRegister(String userAccount, String userPassword, String checkPassword, String userCode) {
     //1. 校验
     if (StringUtils.isAnyBlank(userAccount, userPassword, checkPassword)) {
       return -1;
@@ -130,10 +130,24 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User>
     cleanUser.setPhone(originUser.getPhone());
     cleanUser.setEmail(originUser.getEmail());
     cleanUser.setUserRole(originUser.getUserRole());
+    cleanUser.setUserCode(originUser.getUserCode());
     cleanUser.setCreateTime(originUser.getCreateTime());
     cleanUser.setUpdateTime(originUser.getUpdateTime());
     return cleanUser;
   }
+  /**
+   * 用户注销，移除登录态
+   * @param request 网络请求
+   */
+  @Override
+  public int userLogout(HttpServletRequest request) {
+    request.getSession().removeAttribute(USER_LOGIN_STATE);
+    return 1;
+  }
+
+
+
+
 
 }
 

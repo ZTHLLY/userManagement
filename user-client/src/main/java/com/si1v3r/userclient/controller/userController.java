@@ -38,10 +38,11 @@ public class userController {
     String userAccount = userRegisterRequest.getUserAccount();
     String userPassword = userRegisterRequest.getUserPassword();
     String checkPassword = userRegisterRequest.getCheckPassword();
-    if (StringUtils.isAnyBlank(userAccount, userPassword, checkPassword)) {
+    String userCode=userRegisterRequest.getUserCode();
+    if (StringUtils.isAnyBlank(userAccount, userPassword, checkPassword,userCode)) {
       return null;
     }
-    return userService.UserRegister(userAccount, userPassword, checkPassword);
+    return userService.UserRegister(userAccount, userPassword, checkPassword,userCode);
   }
 
   @PostMapping("/login")
@@ -55,6 +56,14 @@ public class userController {
       return null;
     }
     return userService.userLogin(userAccount, userPassword, request);
+  }
+
+  @PostMapping("/logout")
+  public Integer userLogout(HttpServletRequest request){
+    if(request==null){
+      return null;
+    }
+    return userService.userLogout(request);
   }
 
   @GetMapping("/current")

@@ -47,9 +47,10 @@ export async function register(body: API.RegisterParams, options?: { [key: strin
  * @param options GET /api/user/search
  * @returns 用户列表
  */
-export async function userSearch(options?: { [key: string]: any }) {
+export async function userSearch(params: API.condition, options?: { [key: string]: any }) {
   return request<API.CurrentUser[]>('/user/search', {
     method: 'GET',
+    params: params,
     ...(options || {}),
   });
 }

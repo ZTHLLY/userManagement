@@ -22,6 +22,10 @@ declare namespace API {
     currentAuthority?: string;
   };
 
+  type condition = {
+    username?: string;
+  };
+
   type RegisterResult = number;
 
   type PageParams = {
